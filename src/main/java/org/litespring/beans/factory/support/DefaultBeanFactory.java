@@ -68,14 +68,20 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements 
 	}
 	
 	private Object instantiateBean(BeanDefinition bd) {
-		ClassLoader cl = this.getBeanClassloader();
-		String beanClassName = bd.getBeanClassName();
-		try{
-			Class<?> clz = cl.loadClass(beanClassName);
-			return clz.newInstance();
-		} catch(Exception e){
-			throw new BeanCreationExption("create bean for"+ beanClassName +" failed",e);
+		if(bd.hasConstructorArgumentValues()){
+			ConstructorResolver resolver = new ConstructorResolver(this);
+			return resolver.autowireConstructor(bd);
+		}else{
+			ClassLoader cl = this.getBeanClassloader();
+			String beanClassName = bd.getBeanClassName();
+			try{
+				Class<?> clz = cl.loadClass(beanClassName);
+				return clz.newInstance();
+			} catch(Exception e){
+				throw new BeanCreationExption("create bean for"+ beanClassName +" failed",e);
+			}
 		}
+		
 	}
 	
 	protected void populateBean(BeanDefinition bd, Object bean){
