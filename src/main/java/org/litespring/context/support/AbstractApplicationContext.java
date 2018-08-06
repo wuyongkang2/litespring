@@ -36,7 +36,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	public void setBeanClassLoader(ClassLoader beanClassLoader) {
 		this.beanClassLoader = beanClassLoader;
 	}
-	public ClassLoader getBeanClassloader() {
+	public ClassLoader getBeanClassLoader() {
 		return (this.beanClassLoader != null ? this.beanClassLoader : ClassUtils.getDefaultClassLoader());
 	}
 

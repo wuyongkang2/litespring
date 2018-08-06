@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.litespring.beans.BeanDefinition;
-import org.litespring.beans.factory.BeanCreationExption;
+import org.litespring.beans.factory.BeanCreationException;
 import org.litespring.beans.factory.BeanDefinitionStoreException;
 import org.litespring.beans.factory.BeanFactory;
 import org.litespring.beans.factory.support.DefaultBeanFactory;
@@ -51,7 +51,7 @@ public class BeanFactoryTest {
 		reader.loadBeanDefinitions(new ClassPathResource("petstore-v1.xml"));
 		try {
 			factory.getBean("invalidBean");
-		} catch (BeanCreationExption e) {
+		} catch (BeanCreationException e) {
 			return;
 		}
 		Assert.fail("expect BeanCreationException");

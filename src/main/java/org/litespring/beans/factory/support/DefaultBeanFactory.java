@@ -15,7 +15,7 @@ import org.dom4j.io.SAXReader;
 import org.litespring.beans.BeanDefinition;
 import org.litespring.beans.PropertyValue;
 import org.litespring.beans.SimpleTypeConverter;
-import org.litespring.beans.factory.BeanCreationExption;
+import org.litespring.beans.factory.BeanCreationException;
 import org.litespring.beans.factory.BeanDefinitionStoreException;
 import org.litespring.beans.factory.BeanFactory;
 import org.litespring.beans.factory.config.ConfigurableBeanFactory;
@@ -72,13 +72,13 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements 
 			ConstructorResolver resolver = new ConstructorResolver(this);
 			return resolver.autowireConstructor(bd);
 		}else{
-			ClassLoader cl = this.getBeanClassloader();
+			ClassLoader cl = this.getBeanClassLoader();
 			String beanClassName = bd.getBeanClassName();
 			try{
 				Class<?> clz = cl.loadClass(beanClassName);
 				return clz.newInstance();
 			} catch(Exception e){
-				throw new BeanCreationExption("create bean for"+ beanClassName +" failed",e);
+				throw new BeanCreationException("create bean for"+ beanClassName +" failed",e);
 			}
 		}
 		
@@ -112,14 +112,14 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry implements 
 				}
 			}
 		}catch(Exception e){
-			throw new BeanCreationExption("Failed to obtain BeanInfo for class [" + bd.getBeanClassName() + "]",e);
+			throw new BeanCreationException("Failed to obtain BeanInfo for class [" + bd.getBeanClassName() + "]",e);
 		}
 	} 
 
 	public void setBeanClassLoader(ClassLoader beanClassLoader) {
 		this.beanClassLoader = beanClassLoader;
 	}
-	public ClassLoader getBeanClassloader() {
+	public ClassLoader getBeanClassLoader() {
 		return (this.beanClassLoader != null ? this.beanClassLoader : ClassUtils.getDefaultClassLoader());
 	}
 }

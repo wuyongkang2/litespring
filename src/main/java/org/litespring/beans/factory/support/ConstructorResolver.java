@@ -9,7 +9,7 @@ import org.litespring.beans.BeanDefinition;
 import org.litespring.beans.ConstructorArgument;
 import org.litespring.beans.ConstructorArgument.ValueHolder;
 import org.litespring.beans.SimpleTypeConverter;
-import org.litespring.beans.factory.BeanCreationExption;
+import org.litespring.beans.factory.BeanCreationException;
 import org.litespring.beans.factory.config.ConfigurableBeanFactory;
 
 public class ConstructorResolver {
@@ -27,9 +27,9 @@ public class ConstructorResolver {
 		
 		Class<?> beanClass = null;
 		try {
-			beanClass = this.beanFactory.getBeanClassloader().loadClass(bd.getBeanClassName());
+			beanClass = this.beanFactory.getBeanClassLoader().loadClass(bd.getBeanClassName());
 		}catch(ClassNotFoundException e) {
-			throw new BeanCreationExption(bd.getID(), "Instantiation of bean failed, can't resolve class", e);
+			throw new BeanCreationException(bd.getID(), "Instantiation of bean failed, can't resolve class", e);
 		}
 		
 		Constructor<?>[] candidates = beanClass.getConstructors();
@@ -58,13 +58,13 @@ public class ConstructorResolver {
 		
 		//找不到一个合适的构造函数
 		if(constructorToUse == null){
-			throw new BeanCreationExption(bd.getID(), "can't find a apporiate constructor");
+			throw new BeanCreationException(bd.getID(), "can't find a apporiate constructor");
 		}
 		
 		try{
 			return constructorToUse.newInstance(argsToUse);
 		}catch(Exception e){
-			throw new BeanCreationExption(bd.getID(), "can't find a create instance using" + constructorToUse);
+			throw new BeanCreationException(bd.getID(), "can't find a create instance using" + constructorToUse);
 		}
 		
 	}

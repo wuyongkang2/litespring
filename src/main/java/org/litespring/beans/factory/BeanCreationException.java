@@ -2,19 +2,19 @@ package org.litespring.beans.factory;
 
 import org.litespring.beans.BeansException;
 
-public class BeanCreationExption extends BeansException {
+public class BeanCreationException extends BeansException {
 	private String beanName;
-	public BeanCreationExption(String msg) {
+	public BeanCreationException(String msg) {
 		super(msg);
 	}
-	public BeanCreationExption(String msg, Throwable cause) {
+	public BeanCreationException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
-	public BeanCreationExption(String beanName, String msg){
+	public BeanCreationException(String beanName, String msg){
 		super("Error creating bean with name '" + beanName +"':" + msg);
 		this.beanName = beanName;
 	}
-	public BeanCreationExption(String beanName,String msg,Throwable cause) {
+	public BeanCreationException(String beanName,String msg,Throwable cause) {
 		this(beanName,msg);
 		initCause(cause);
 	}
